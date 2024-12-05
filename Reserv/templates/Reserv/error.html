@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Error de Reserva</title>
+    <style>
+        body {
+            background-color: white;
+            color: #333;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: #f00; /* Rojo para el título */
+        }
+        a {
+            color: #00aaff; /* Celeste para el enlace */
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Error</h1>
+        <p>{{ message }}</p>
+        <p><a href="{% url 'home' %}">Volver al inicio</a></p>
+    </div>
+</body>
+</html>
