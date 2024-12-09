@@ -1,13 +1,10 @@
-
-
 from pathlib import Path
+import firebase_admin 
+from firebase_admin import credentials
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-1p&=37i&xw0i%8!koi6!0re3brkj=gfq0_1i8h^w5^0)qekh37'
@@ -27,7 +24,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Reserv'
+    'Reserv',
 ]
 
 MIDDLEWARE = [
@@ -114,7 +111,7 @@ STATIC_URL = '/static/'
 # Asegúrate de que STATICFILES_DIRS apunte a la ruta correcta
 import os
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'Reserv/static'),
+    os.path.join(BASE_DIR, 'static'),
 ]
 
 
