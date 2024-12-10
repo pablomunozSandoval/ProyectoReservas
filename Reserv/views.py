@@ -111,12 +111,14 @@ def reserve_view(request, doctor_id):
 
     # Si el doctor está disponible y no tiene reserva
     if request.method == 'POST':
-        nombre_cliente = request.user.username  # Usar el nombre de usuario autenticado
+        nombre_cliente = request.POST.get('nombre')    # Usar el nombre guardado
+        paciente_id =request.user.id # Usar el id del usuario autenticado
         if nombre_cliente:
             # Realizar la reserva en Firestore
             db.collection('reservations').add({
                 'doctor_id': doctor_id,
-                'nombre_cliente': nombre_cliente
+                'name_patient': nombre_cliente,
+                'client_id': paciente_id
             })
             reservas[doctor_id - 1] = nombre_cliente
             doctor_ref.update({'available': False})  # Marcar al doctor como no disponible en Firestore
@@ -129,8 +131,17 @@ def reserve_view(request, doctor_id):
 @login_required
 def mis_citas(request):
     # Filtrar las citas reservadas por el usuario desde Firestore
-    reservations_ref = db.collection('reservations').where('nombre_cliente', '==', request.user.username).stream()
-    citas_reservadas = [reservation.to_dict() for reservation in reservations_ref]
+    reservations_ref = db.collection('reservations').where('client_id', '==', request.user.id).stream()
+    citas_reservadas = []
+    
+    for reservation in reservations_ref:
+        cita = reservation.to_dict()
+        cita['id'] = reservation.id  # Añadir el ID de la cita para poder eliminarla
+        # Obtener la información del doctor
+        doctor_ref = db.collection('doctors').document(str(cita['doctor_id']))
+        doctor = doctor_ref.get().to_dict()
+        cita['doctor'] = doctor
+        citas_reservadas.append(cita)
 
     if not citas_reservadas:
         mensaje = "No tienes citas reservadas."
@@ -138,3 +149,9 @@ def mis_citas(request):
         mensaje = None
 
     return render(request, 'Reserv/mis_citas.html', {'citas': citas_reservadas, 'mensaje': mensaje})
+
+@login_required
+def eliminar_cita(request, cita_id):
+    # Eliminar la cita de Firestore
+    db.collection('reservations').document(cita_id).delete()
+    return redirect('mis_citas')

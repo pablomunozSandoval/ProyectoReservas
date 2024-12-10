@@ -75,3 +75,16 @@
         .volver-btn:hover {
             background-color: #007399;
         }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        form input {
+            padding: 10px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }

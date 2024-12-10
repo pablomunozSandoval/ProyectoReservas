@@ -19,10 +19,14 @@
             <h2>Estas son tus citas reservadas:</h2>
             {% for cita in citas %}
                 <div class="cita">
-                    <h2>Doctor: {{ cita.doctor }}</h2>
-                    <p>Especialidad: {{ cita.especialidad }}</p>
-                    <p>Cliente: {{ cita.nombre_cliente }}</p>
-                    <p>Fecha de Creación: {{ cita.date_created }}</p>
+                    <h2>Doctor: {{ cita.doctor.name }}</h2>
+                    <p>Especialidad: {{ cita.doctor.specialty }}</p>
+                    <p>Cliente: {{ cita.name_patient }}</p>
+                    
+                    <form method="POST" action="{% url 'eliminar_cita' cita.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Eliminar cita</button>
+                    </form>
                 </div>
             {% endfor %}
         {% endif %}
