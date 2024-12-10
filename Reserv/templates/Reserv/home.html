@@ -6,11 +6,8 @@
     <title>Home</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/stylesHome.css' %}">
-
 </head>
 <body>
-
-    <!-- Barra de navegación -->
     <header>
         <h1>Clínica Piltover</h1>
         <nav>
@@ -30,14 +27,13 @@
             {% for doctor in doctors %}
                 <div class="doctor-card">
                     <h3>{{ doctor.name }}</h3>
-                    <p><strong>Especialidad:</strong> {{ doctor.especialidad }}</p>
-                    <p>{{ doctor.descripcion }}</p>
-                    <p><strong>Horario:</strong> {{ doctor.horarios }}</p>
+                    <p><strong>Especialidad:</strong> {{ doctor.specialty }}</p>
+                    <p>{{ doctor.description }}</p>
+                    <p><strong>Horario:</strong> {{ doctor.schedule }}</p>
                     <a href="{% url 'reserve' doctor.id %}">Reservar con {{ doctor.name }}</a>
                 </div>
             {% endfor %}
         </div>
     </div>
-
 </body>
 </html>

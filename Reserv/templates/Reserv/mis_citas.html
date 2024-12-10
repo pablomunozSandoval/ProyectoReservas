@@ -1,4 +1,3 @@
-<!-- mis_citas.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,7 +5,6 @@
     <title>Mis Citas</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/stylesCita.css' %}">
-
 </head>
 <body>
     <div class="navbar">
@@ -21,9 +19,10 @@
             <h2>Estas son tus citas reservadas:</h2>
             {% for cita in citas %}
                 <div class="cita">
-                    <h2>Doctor: {{ cita.doctor.name }}</h2>
-                    <p>Especialidad: {{ cita.doctor.especialidad }}</p>
+                    <h2>Doctor: {{ cita.doctor }}</h2>
+                    <p>Especialidad: {{ cita.especialidad }}</p>
                     <p>Cliente: {{ cita.nombre_cliente }}</p>
+                    <p>Fecha de Creación: {{ cita.date_created }}</p>
                 </div>
             {% endfor %}
         {% endif %}

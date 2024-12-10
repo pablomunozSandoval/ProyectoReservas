@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from app.firebase_config import db  # Importar firebase_config usando una importación absoluta
+from app.firebase_config import db  # Importar el cliente de Firestore
 
 class Doctor(models.Model):
     name = models.CharField(max_length=100)

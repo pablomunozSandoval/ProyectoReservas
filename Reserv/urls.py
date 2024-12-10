@@ -9,6 +9,4 @@ urlpatterns = [
     path('register/', views.register_view, name='register'),
     path('mis-citas/', views.mis_citas, name='mis_citas'),
     path('reserve/<int:doctor_id>/', views.reserve_view, name='reserve'),
-    
 ]
-
