@@ -8,12 +8,12 @@ from django.contrib import messages
 
 def login_view(request):
     if request.method == 'POST':
-        username = request.POST['username']
+        email = request.POST['email']
         password = request.POST['password']
         
         # Verificar las credenciales en Firestore
         users_ref = db.collection('users')
-        query = users_ref.where('username', '==', username).where('password', '==', password).stream()
+        query = users_ref.where('email', '==', email).where('password', '==', password).stream()
 
         user_exists = False
         user_data = None
@@ -24,11 +24,11 @@ def login_view(request):
         
         if user_exists:
             # Crear el usuario en Django si no existe
-            if not User.objects.filter(username=username).exists():
-                User.objects.create_user(username=username, password=password)
+            if not User.objects.filter(email=email).exists():
+                User.objects.create_user(username=email, email=email, password=password)
             
             # Autenticar al usuario en Django
-            user = authenticate(request, username=username, password=password)
+            user = authenticate(request, username=email, password=password)
             if user is not None:
                 login(request, user)
                 role = user_data.get('role')
@@ -44,34 +44,6 @@ def login_view(request):
     # Si no es una solicitud POST, renderizar la página de login
     return render(request, 'Reserv/login.html')
 
-def register_view(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        
-        # Verificar si el usuario ya existe en Firestore
-        users_ref = db.collection('users')
-        query = users_ref.where('username', '==', username).stream()
-        
-        user_exists = False
-        for user in query:
-            user_exists = True
-            break
-        
-        if user_exists:
-            return render(request, 'Reserv/register.html', {'error': 'El nombre de usuario ya está registrado.'})
-        
-        # Crear el usuario en Firestore
-        users_ref.add({
-            'username': username,
-            'password': password
-        })
-        
-        # Crear el usuario en Django
-        User.objects.create_user(username=username, password=password)
-        
-        return redirect('login')
-    return render(request, 'Reserv/register.html')
 
 @login_required
 def home(request):
